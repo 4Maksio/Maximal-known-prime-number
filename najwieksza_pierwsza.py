@@ -3,40 +3,22 @@
 '''
 from os import system
 from sys import set_int_max_str_digits
+import numpy as np
 
-def int_to_string(int):
-    i = 1
-    ret = ""
-    while int > 0:
-        if i%100==0:
-            system("cls")
-            print("Liczba ta ma około 25 000 000 znaków")
-            print(f"Przekonwertowano {i} znaków")
-        d = int % 10
-        int = int//10
-        match d:
-            case 0:
-                ret = '0'+ret
-            case 1:
-                ret = '1'+ret
-            case 2:
-                ret = '2'+ret
-            case 3:
-                ret = '3'+ret
-            case 4:
-                ret = '4'+ret
-            case 5:
-                ret = '5'+ret
-            case 6:
-                ret = '6'+ret
-            case 7:
-                ret = '7'+ret
-            case 8:
-                ret = '8'+ret
-            case 9:
-                ret = '9'+ret
-        i+=1
-    return ret
+def int_to_string(integer):
+    counter = 1
+    returning_str = ""
+    zero = ord('0')
+    system("cls")
+    print("Liczba ta ma około 25 000 000 znaków")
+    while integer > 0:
+        if counter%100 == 0:
+            print(f"Przekonwertowano {counter} znaków")
+        d = chr(integer % 10 + zero)
+        integer = integer//10
+        returning_str = d+returning_str
+        counter+=1
+    return returning_str
 
 
 set_int_max_str_digits(25000000)
@@ -80,23 +62,23 @@ i=1
 
 for p in krotka:
     system("cls")
-    print(f"Spotęgowano!")
     print(f"Zmnażanie {i}/8")
     i+=1
     wynik *= p
 
+wynik -= 1
 
 system("cls")
-print(f"Rozpoczęto konwersję z lczby na znaki")
+print(f"Rozpoczęto konwersję z liczby na znaki")
 
-wynik = int_to_string(wynik)
+wynik_str = int_to_string(wynik)
 
 
 system("cls")
 print(f"Rozpoczęto zapis do pliku")
 
-with open("najwieksza_pierwsza.txt", "a") as plik:
-    plik.write(wynik)
+with open("najwieksza_pierwsza.txt", "w") as plik:
+    plik.write(wynik_str)
 
 system("cls")
 print("Plik z największą znalezioną liczbą pierwszą gotowy.")
