@@ -1,84 +1,31 @@
 '''
 (2**82589933)-1
 '''
-from os import system
 from sys import set_int_max_str_digits
-import numpy as np
-
-def int_to_string(integer):
-    counter = 1
-    returning_str = ""
-    zero = ord('0')
-    system("cls")
-    print("Liczba ta ma około 25 000 000 znaków")
-    while integer > 0:
-        if counter%100 == 0:
-            print(f"Przekonwertowano {counter} znaków")
-        d = chr(integer % 10 + zero)
-        integer = integer//10
-        returning_str = d+returning_str
-        counter+=1
-    return returning_str
-
+import timeit as ti
 
 set_int_max_str_digits(25000000)
 
-wynik = i = 1
+print("Obliczanie oraz wykonywanie: czas obliczeń")
+czas_obliczen = ti.timeit("x=2**82589933-1", number=10)
+wynik = 2**82589933-1
+print("Zakończono")
+print(f"Czas obliczenia liczby 10 razy: {czas_obliczen} s")
 
-p1 = 2**3
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p2 = 2**30
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p3 = 2**900
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p4 = 2**9000
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p5 = 2**80000
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p6 = 2**500000
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p7 = 2**2000000
-system("cls")
-print(f"Policzono {i}. rząd")
-i+=1
-p8 = 2**80000000
-system("cls")
-print(f"Policzono {i}. rząd")
+print("Obliczanie oraz wykonywanie: konwersja na string")
+czas_konwersji = ti.timeit("str(wynik)", globals=globals(), number=1)
+wynik_str = str(wynik)
+print("Zakończono")
+print(f"Czas konwersji liczby 1 raz: {czas_konwersji} s")
 
-krotka = (p1,p2,p3,p4,p5,p6,p7,p8)
-i=1
-
-for p in krotka:
-    system("cls")
-    print(f"Zmnażanie {i}/8")
-    i+=1
-    wynik *= p
-
-wynik -= 1
-
-system("cls")
-print(f"Rozpoczęto konwersję z liczby na znaki")
-
-wynik_str = int_to_string(wynik)
-
-
-system("cls")
-print(f"Rozpoczęto zapis do pliku")
-
+print("Obliczanie oraz wykonywanie: zapis do pliku")
+czas_zapisu = ti.timeit('with open("najwieksza_pierwsza.txt", "w") as plik: plik.write(wynik_str)', globals=globals(), number=100)
 with open("najwieksza_pierwsza.txt", "w") as plik:
     plik.write(wynik_str)
+print("Zakończono")
+print(f"Czas zapisania liczby 100 razy: {czas_zapisu} s")
 
-system("cls")
-print("Plik z największą znalezioną liczbą pierwszą gotowy.")
+print("--- --- --- Podsumowanie --- --- ---")
+print(f"Czas obliczenia liczby 10 razy: {czas_obliczen} s")
+print(f"Czas konwersji liczby 1 raz: {czas_konwersji} s")
+print(f"Czas zapisania liczby 100 razy: {czas_zapisu} s")
